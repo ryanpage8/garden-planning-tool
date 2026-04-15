@@ -1,0 +1,10 @@
+# Python Specific Ignores
+**/__pycache__/
+*.pyc
+venv/
+
+# VS Code Specific Ignores
+.vscode/
+
+# Mac OS Specific Ignores
+.DS_Store
