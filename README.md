@@ -4,27 +4,26 @@ Application for planning and managing gardens.
 
 ## Project Structure
 - `/backend`: FastAPI service (Python 3.14)
-- `/frontend`: (In Progress)
+- `/frontend`: React + Vite
 - `/docs`: Project documentation and architecture notes (In Progress)
 
-## Backend Setup
-
 ### Prerequisites
-- Python 3.14.4
+- **Python 3.14.4+**
+- **Node.js 25.9.0 & npm 11.12.1**: Required to run the Vite development server and manage React dependencies.
+- **VS Code**: Recommended editor (see `.vscode/extensions.json` for suggested plugins).
 
-### Installation
-1. Navigate to the backend directory:
-   `cd backend`
-2. Create a virtual environment:
-   `python -m venv venv`
-3. Activate the environment:
-   `source venv/bin/activate`
-4. Install dependencies:
-   `pip install -r requirements.txt`
+### Backend Setup
+1. `cd backend`
+2. `source venv/bin/activate`
+3. `pip install -r requirements.txt`
+4. `cp .env.example .env`
+5. `fastapi dev main.py` (Runs on port 8000)
 
-### Running the Development Server
-From the `/backend` directory:
-`fastapi dev main.py`
+### Frontend Setup
+1. `cd frontend`
+2. `npm install`
+3. `cp .env.example .env.local`
+4. `npm run dev` (Runs on port 5173)
 
 The API will be available at `http://127.0.0.1:8000`. 
 Check `http://127.0.0.1:8000/docs` for the interactive API documentation.

@@ -1,10 +1,25 @@
 # Python Specific Ignores
 **/__pycache__/
 *.pyc
-venv/
+backend/venv/
+backend/.env
 
 # VS Code Specific Ignores
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 
 # Mac OS Specific Ignores
 .DS_Store
+
+
+# Node and Vite Specific Ignores
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.eslintcache
+
+logs/
+*.log
+npm-debug.log*
+*.local
+.env.local
