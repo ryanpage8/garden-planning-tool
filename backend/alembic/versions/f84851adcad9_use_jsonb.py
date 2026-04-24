@@ -1,18 +1,18 @@
-"""create plant table
+"""use JSONB
 
-Revision ID: 8732b163cd9d
+Revision ID: f84851adcad9
 Revises: 
-Create Date: 2026-04-23 21:16:49.399970
+Create Date: 2026-04-24 10:09:36.225288
 
 """
 from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = '8732b163cd9d'
+revision: str = 'f84851adcad9'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -37,17 +37,17 @@ def upgrade() -> None:
     sa.Column('genus', sa.String(), nullable=True),
     sa.Column('origin', sa.String(), nullable=True),
     sa.Column('type', sa.String(), nullable=True),
-    sa.Column('dimensions', sa.JSON(), nullable=True),
+    sa.Column('dimensions', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('cycle', sa.String(), nullable=True),
     sa.Column('attracts', sa.String(), nullable=True),
     sa.Column('propagation', sa.String(), nullable=True),
-    sa.Column('hardiness', sa.JSON(), nullable=True),
-    sa.Column('hardiness_location', sa.JSON(), nullable=True),
+    sa.Column('hardiness', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('hardiness_location', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('watering', sa.String(), nullable=True),
-    sa.Column('watering_general_benchmark', sa.JSON(), nullable=True),
+    sa.Column('watering_general_benchmark', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('sunlight', sa.String(), nullable=True),
     sa.Column('pruning_month', sa.String(), nullable=True),
-    sa.Column('pruning_count', sa.JSON(), nullable=True),
+    sa.Column('pruning_count', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('seeds', sa.Boolean(), nullable=True),
     sa.Column('maintenance', sa.String(), nullable=True),
     sa.Column('care_guides', sa.String(), nullable=True),
@@ -74,7 +74,7 @@ def upgrade() -> None:
     sa.Column('poisonous_to_humans', sa.Boolean(), nullable=True),
     sa.Column('poisonous_to_pets', sa.Boolean(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('default_image', sa.JSON(), nullable=True),
+    sa.Column('default_image', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('last_synced', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),

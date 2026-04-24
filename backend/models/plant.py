@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, JSON
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from db import Base
@@ -22,17 +23,17 @@ class Plant(Base):
     genus = Column(String, nullable=True)
     origin = Column(String, nullable=True)                       
     type = Column(String, nullable=True)
-    dimensions = Column(JSON, nullable=True)                     
+    dimensions = Column(JSONB, nullable=True)                    
     cycle = Column(String, nullable=True)
     attracts = Column(String, nullable=True)                     
     propagation = Column(String, nullable=True)                  
-    hardiness = Column(JSON, nullable=True)                      
-    hardiness_location = Column(JSON, nullable=True)             
+    hardiness = Column(JSONB, nullable=True)                     
+    hardiness_location = Column(JSONB, nullable=True)            
     watering = Column(String, nullable=True)
-    watering_general_benchmark = Column(JSON, nullable=True)     
+    watering_general_benchmark = Column(JSONB, nullable=True)    
     sunlight = Column(String, nullable=True)                     
     pruning_month = Column(String, nullable=True)                
-    pruning_count = Column(JSON, nullable=True)                 
+    pruning_count = Column(JSONB, nullable=True)                 
     seeds = Column(Boolean, nullable=True)
     maintenance = Column(String, nullable=True)
     care_guides = Column(String, nullable=True)                  
@@ -45,7 +46,7 @@ class Plant(Base):
     tropical = Column(Boolean, nullable=True)
     indoor = Column(Boolean, nullable=True)
     care_level = Column(String, nullable=True)
-    pest_susceptibility = Column(String, nullable=True)         
+    pest_susceptibility = Column(String, nullable=True)          
     flowers = Column(Boolean, nullable=True)
     flowering_season = Column(String, nullable=True)
     cones = Column(Boolean, nullable=True)
@@ -59,7 +60,7 @@ class Plant(Base):
     poisonous_to_humans = Column(Boolean, nullable=True)
     poisonous_to_pets = Column(Boolean, nullable=True)
     description = Column(Text, nullable=True)
-    default_image = Column(JSON, nullable=True)              
+    default_image = Column(JSONB, nullable=True)                 
 
     # --- Sync metadata ---
     last_synced = Column(DateTime(timezone=True), nullable=True)
