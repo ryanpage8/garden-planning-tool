@@ -30,7 +30,7 @@ function Plot({
   selectedId, 
   setSelectedId, 
   plotRefs, 
-  onResize 
+  onResize,
 }: PlotProps) {
   return (
     <Group
