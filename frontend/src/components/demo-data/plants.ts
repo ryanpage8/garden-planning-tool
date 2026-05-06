@@ -1,5 +1,3 @@
-// DATA FOR THE DEMO ON WEDNESDAY
-// will replace with plant library once it's been fully integrated
 export const plants = [
   { name: "Tomato", species: "Solanum lycopersicum", row: 0, col: 0, water_needs: "medium", sunlight: "full" },
   { name: "Basil", species: "Ocimum basilicum", row: 0, col: 0, water_needs: "low", sunlight: "full" },
