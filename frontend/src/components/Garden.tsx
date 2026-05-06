@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { Stage, Layer, Rect, Text, Transformer } from 'react-konva';
+import { Layer, Rect, Text, Transformer } from 'react-konva';
 import Plot from './Plot';
 import { type Plot as PlotData, type Garden } from '../types/garden.ts';
 
@@ -16,8 +16,6 @@ interface GardenProps {
 }
 
 export default function Garden({
-    width,
-    height,
     scale,
     plots,
     selectedId,
@@ -25,7 +23,6 @@ export default function Garden({
     onMove,
     onResize,
 }: GardenProps) {
-    // These refs stay here because they are "DOM-like" refs for Konva nodes
     const trRef = useRef<Konva.Transformer>(null);
     const plotRefs = useRef<Record<string, Konva.Node>>({});
 
@@ -37,7 +34,6 @@ export default function Garden({
         }
     };
 
-    // This effect syncs the Transformer with the selected plot
     useEffect(() => {
         const transformer = trRef.current;
         if (!transformer) return;
@@ -54,69 +50,58 @@ export default function Garden({
     }, [selectedId]);
 
     return (
-        <Stage
-            width={width}
-            height={height}
-            onMouseDown={(e) => {
-                // Deselect if clicking the empty stage
-                if (e.target === e.target.getStage()) onSelect(null);
-            }}
-        >
-            <Layer scaleX={scale} scaleY={scale}>
-                <Rect
-                    x={50}
-                    y={100}
-                    width={700}
-                    height={600}
-                    stroke="#333"
-                    strokeWidth={1 / scale}
-                    dash={[5, 5]}
-                />
+        <Layer>
+            <Rect
+                x={50}
+                y={100}
+                width={700}
+                height={600}
+                stroke="#333"
+                strokeWidth={1 / scale}
+                dash={[5, 5]}
+            />
 
-                <Text
-                    x={50}
-                    y={64}
-                    text="Garden Area"
-                    fontSize={14}
-                    fill="#888"
-                    fontStyle="bold"
-                    listening={false}
-                />
+            <Text
+                x={50}
+                y={64}
+                text="Garden Area"
+                fontSize={14}
+                fill="#888"
+                fontStyle="bold"
+                listening={false}
+            />
 
-                {plots.map((plot) => (
-                    <Plot
-                        key={plot.id}
-                        {...plot}
-                        onAttach={handleAttach}
-                        isSelected={selectedId === plot.id}
-                        onSelect={() => onSelect(plot.id)}
-                        onDragEnd={(e) =>
-                            onMove(plot.id, e.target.x(), e.target.y())
-                        }
-                        onTransformEnd={(e) => {
-                            const node = e.target;
-                            onResize(
-                                plot.id,
-                                node.width() * node.scaleX(),
-                                node.height() * node.scaleY()
-                            );
-                            node.setAttrs({ scaleX: 1, scaleY: 1 });
-                        }}
-                    />
-                ))}
-
-                <Transformer
-                    ref={trRef}
-                    rotateEnabled={false}
-                    keepRatio={false}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // Prevent shrinking the plot too small
-                        if (newBox.width < 20 || newBox.height < 20)
-                            return oldBox;
-                        return newBox;
+            {plots.map((plot) => (
+                <Plot
+                    key={plot.id}
+                    {...plot}
+                    onAttach={handleAttach}
+                    isSelected={selectedId === plot.id}
+                    onSelect={() => onSelect(plot.id)}
+                    onDragEnd={(e) =>
+                        onMove(plot.id, e.target.x(), e.target.y())
+                    }
+                    onTransformEnd={(e) => {
+                        const node = e.target;
+                        onResize(
+                            plot.id,
+                            node.width() * node.scaleX(),
+                            node.height() * node.scaleY()
+                        );
+                        node.setAttrs({ scaleX: 1, scaleY: 1 });
                     }}
                 />
-            </Layer>
-        </Stage>
+            ))}
+
+            <Transformer
+                ref={trRef}
+                rotateEnabled={false}
+                keepRatio={false}
+                boundBoxFunc={(oldBox, newBox) => {
+                    if (newBox.width < 20 || newBox.height < 20) return oldBox;
+                    return newBox;
+                }}
+            />
+        </Layer>
     );
 }

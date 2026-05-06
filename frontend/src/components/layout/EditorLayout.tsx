@@ -24,7 +24,7 @@ export default function EditorLayout({
         target.setPointerCapture(e.pointerId);
 
         isResizing.current = true;
-        setIsDragging(true); // Trigger cursor/selection styles
+        setIsDragging(true);
         document.addEventListener('pointermove', handlePointerMove);
         document.addEventListener(
             'pointerup',
