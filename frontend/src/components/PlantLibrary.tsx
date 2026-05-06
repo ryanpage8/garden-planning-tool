@@ -1,4 +1,3 @@
-// src/components/PlantLibrary.tsx
 import { useState } from 'react'
 import PlantCard from './PlantCard'
 import { plants } from './demo-data/plants'
