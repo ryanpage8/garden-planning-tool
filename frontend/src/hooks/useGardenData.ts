@@ -1,7 +1,18 @@
 import { useState } from 'react';
-import type { Plot } from '../types/garden';
+import type { Garden, Plot } from '../types/garden';
 
 export function useGardenData() {
+    const [gardens, setGardens] = useState<Garden[]>([
+        {
+            id: 'garden1',
+            name: 'backyard',
+            x: 50,
+            y: 100,
+            dimensions: { width: 700, height: 500 },
+            plots: [],
+        },
+    ]);
+
     const [plots, setPlots] = useState<Plot[]>([
         { id: 'plot1', x: 80, y: 150, width: 70, height: 70, plants: [1] },
         {
@@ -14,6 +25,18 @@ export function useGardenData() {
         },
         { id: 'plot3', x: 550, y: 280, width: 80, height: 200, plants: [1, 2] },
     ]);
+
+    const addGarden = (x: number, y: number) => {
+        const newGarden: Garden = {
+            id: `garden-${Date.now()}`,
+            name: 'New Garden Area',
+            x,
+            y,
+            dimensions: { width: 700, height: 500 },
+            plots: [],
+        };
+        setGardens((prev) => [...prev, newGarden]);
+    };
 
     const addPlot = () => {
         const id = `plot-${Date.now()}`;
@@ -33,5 +56,5 @@ export function useGardenData() {
         );
     };
 
-    return { plots, addPlot, handleMove, handleResize };
+    return { gardens, plots, addGarden, addPlot, handleMove, handleResize };
 }

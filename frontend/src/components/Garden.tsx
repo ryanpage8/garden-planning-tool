@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { Layer, Rect, Text, Transformer } from 'react-konva';
+import { Group, Rect, Text, Transformer } from 'react-konva';
 import Plot from './Plot';
 import { type Plot as PlotData, type Garden } from '../types/garden.ts';
 
 interface GardenProps {
+    x: number;
+    y: number;
     width: number;
     height: number;
     scale: number;
@@ -16,6 +18,10 @@ interface GardenProps {
 }
 
 export default function Garden({
+    x,
+    y,
+    width,
+    height,
     scale,
     plots,
     selectedId,
@@ -50,22 +56,23 @@ export default function Garden({
     }, [selectedId]);
 
     return (
-        <Layer>
+        <Group x={x} y={y}>
             <Rect
-                x={50}
-                y={100}
-                width={700}
-                height={600}
+                x={0}
+                y={0}
+                width={width}
+                height={height}
                 stroke="#333"
                 strokeWidth={1 / scale}
-                dash={[5, 5]}
+                dash={[5 / scale, 5 / scale]}
+                listening={false}
             />
 
             <Text
-                x={50}
-                y={64}
+                x={0}
+                y={-20 / scale}
                 text="Garden Area"
-                fontSize={14}
+                fontSize={14 / scale}
                 fill="#888"
                 fontStyle="bold"
                 listening={false}
@@ -75,6 +82,8 @@ export default function Garden({
                 <Plot
                     key={plot.id}
                     {...plot}
+                    gardenWidth={width}
+                    gardenHeight={height}
                     onAttach={handleAttach}
                     isSelected={selectedId === plot.id}
                     onSelect={() => onSelect(plot.id)}
@@ -102,6 +111,6 @@ export default function Garden({
                     return newBox;
                 }}
             />
-        </Layer>
+        </Group>
     );
 }

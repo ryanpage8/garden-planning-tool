@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react';
-import { Stage } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 import Konva from 'konva';
 
 interface CanvasSize {
@@ -9,12 +9,14 @@ interface CanvasSize {
 
 interface CanvasProps {
     children: (size: CanvasSize, scale: number) => ReactNode;
+    onAddGarden: (x: number, y: number) => void;
 }
 
-export default function Canvas({ children }: CanvasProps) {
+export default function Canvas({ children, onAddGarden }: CanvasProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState({ width: 0, height: 0 });
     const [view, setView] = useState({ x: 0, y: 0, scale: 1 });
+    const [menu, setMenu] = useState({ x: 0, y: 0, visible: false });
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -54,10 +56,27 @@ export default function Canvas({ children }: CanvasProps) {
         });
     };
 
+    const handleContextMenu = (e: Konva.KonvaEventObject<PointerEvent>) => {
+        e.evt.preventDefault();
+
+        const stage = e.target.getStage();
+        if (!stage) return;
+
+        const pointer = stage.getPointerPosition();
+        if (!pointer) return;
+
+        const worldPos = {
+            x: (pointer.x - stage.x()) / stage.scaleX(),
+            y: (pointer.y - stage.y()) / stage.scaleY(),
+        };
+
+        setMenu({ x: worldPos.x, y: worldPos.y, visible: true });
+    };
+
     return (
         <div
             ref={containerRef}
-            className="w-full h-full bg-code-bg overflow-hidden"
+            className="w-full h-full bg-code-bg overflow-hidden relative"
         >
             <Stage
                 width={size.width}
@@ -68,6 +87,10 @@ export default function Canvas({ children }: CanvasProps) {
                 scaleX={view.scale}
                 scaleY={view.scale}
                 onWheel={handleZoom}
+                onContextMenu={handleContextMenu}
+                onMouseDown={() => {
+                    if (menu.visible) setMenu({ ...menu, visible: false });
+                }}
                 onDragEnd={(e) => {
                     if (e.target === e.target.getStage()) {
                         setView((prev) => ({
@@ -78,8 +101,27 @@ export default function Canvas({ children }: CanvasProps) {
                     }
                 }}
             >
-                {children(size, view.scale)}
+                <Layer>{children(size, view.scale)}</Layer>
             </Stage>
+            {menu.visible && (
+                <div
+                    className="absolute z-50 bg-bg-main border border-border-main shadow-xl rounded py-1 w-32"
+                    style={{
+                        left: menu.x * view.scale + view.x,
+                        top: menu.y * view.scale + view.y,
+                    }}
+                >
+                    <button
+                        onClick={() => {
+                            onAddGarden(menu.x, menu.y);
+                            setMenu({ ...menu, visible: false });
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-accent hover:text-white"
+                    >
+                        + Add Garden
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

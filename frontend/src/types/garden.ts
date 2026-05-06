@@ -16,5 +16,8 @@ export interface Plot {
 export interface Garden {
     id: string;
     name: string;
+    x: number;
+    y: number;
     plots: Plot[];
+    dimensions: { width: number; height: number };
 }

@@ -1,19 +1,14 @@
 import Konva from 'konva';
 import { Rect, Text, Group } from 'react-konva';
 
-const GRID_CONFIG = {
-    x: 50,
-    y: 100,
-    width: 700,
-    height: 500,
-};
-
 interface PlotProps {
     id: string;
     x: number;
     y: number;
     width: number;
     height: number;
+    gardenWidth: number;
+    gardenHeight: number;
     plants: string[] | number[];
     isSelected: boolean;
     onSelect: () => void;
@@ -45,16 +40,6 @@ function Plot({
             onTap={onSelect}
             onDragEnd={onDragEnd}
             onTransformEnd={onTransformEnd}
-            dragBoundFunc={(pos) => ({
-                x: Math.max(
-                    GRID_CONFIG.x,
-                    Math.min(pos.x, GRID_CONFIG.x + GRID_CONFIG.width - width)
-                ),
-                y: Math.max(
-                    GRID_CONFIG.y,
-                    Math.min(pos.y, GRID_CONFIG.y + GRID_CONFIG.height - height)
-                ),
-            })}
         >
             <Rect
                 width={width}

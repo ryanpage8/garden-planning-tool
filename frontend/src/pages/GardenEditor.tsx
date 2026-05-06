@@ -5,7 +5,8 @@ import Garden from '../components/Garden';
 import { useGardenData } from '../hooks/useGardenData';
 
 export default function GardenEditor() {
-    const { plots, addPlot, handleMove, handleResize } = useGardenData();
+    const { gardens, plots, addGarden, addPlot, handleMove, handleResize } =
+        useGardenData();
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
     return (
@@ -35,18 +36,25 @@ export default function GardenEditor() {
                 </div>
             }
             canvas={
-                <Canvas>
-                    {(size, scale) => (
-                        <Garden
-                            width={size.width}
-                            height={size.height}
-                            scale={scale}
-                            plots={plots}
-                            selectedId={selectedId}
-                            onSelect={setSelectedId}
-                            onMove={handleMove}
-                            onResize={handleResize}
-                        />
+                <Canvas onAddGarden={addGarden}>
+                    {(_size, scale) => (
+                        <>
+                            {gardens.map((garden) => (
+                                <Garden
+                                    key={garden.id}
+                                    x={garden.x}
+                                    y={garden.y}
+                                    width={garden.dimensions.width}
+                                    height={garden.dimensions.height}
+                                    scale={scale}
+                                    plots={plots}
+                                    selectedId={selectedId}
+                                    onSelect={setSelectedId}
+                                    onMove={handleMove}
+                                    onResize={handleResize}
+                                />
+                            ))}
+                        </>
                     )}
                 </Canvas>
             }
