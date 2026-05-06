@@ -25,7 +25,7 @@ export default function GardenEditor() {
     { id: 'plot3', x: 550, y: 280, width: 80,  height: 200, plants: [1, 2] },
   ]);
   const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, _setPosition] = useState({ x: 0, y: 0 });
   const [panelWidth, setPanelWidth] = useState(300);
   const isResizing = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
