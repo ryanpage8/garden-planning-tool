@@ -64,7 +64,7 @@ export default function EditorLayout({
             </header>
 
             <div className="flex flex-1 min-h-0 overflow-hidden">
-                <aside className="w-[72px] flex-shrink-0 border-r border-border-main flex flex-col items-center py-2 gap-4 bg-bg-main z-20">
+                <aside className="w-[12px] flex-shrink-0 flex flex-col items-center py-2 gap-4 bg-code-bg z-20">
                     {sidebar}
                 </aside>
 

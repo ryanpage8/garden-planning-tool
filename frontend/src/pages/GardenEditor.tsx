@@ -3,6 +3,8 @@ import EditorLayout from '../components/layout/EditorLayout';
 import Canvas from '../components/Canvas';
 import Garden from '../components/Garden';
 import { useGardenData } from '../hooks/useGardenData';
+import FeaturePanel from '../components/FeaturePanel';
+
 
 export default function GardenEditor() {
     const { gardens, plots, addGarden, addPlot, handleMove, handleResize } =
@@ -23,18 +25,7 @@ export default function GardenEditor() {
                     <div className="h-px bg-border-main w-full" />
                 </div>
             }
-            panel={
-                <div className="p-6 space-y-6">
-                    <h2 className="text-lg font-semibold text-text-header">
-                        Feature
-                    </h2>
-                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <p className="text-sm text-text-main italic">
-                            Search and AI Chatbot panel.
-                        </p>
-                    </div>
-                </div>
-            }
+            panel={<FeaturePanel />}
             canvas={
                 <Canvas onAddGarden={addGarden}>
                     {(_size, scale) => (
