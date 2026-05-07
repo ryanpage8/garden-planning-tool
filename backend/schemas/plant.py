@@ -1,8 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional, Any, Generic, TypeVar
+from typing import Annotated, Optional, Any, Generic, TypeVar
+from fastapi import Query
 
 T = TypeVar("T")
+
+# Reusable query param types
+PageParam = Annotated[int, Query(ge=1, description="Page number")]
+LimitParam = Annotated[int, Query(ge=1, le=100, description="Results per page")]
 
 
 class PlantSummary(BaseModel):
@@ -41,7 +46,7 @@ class PlantResponse(BaseModel):
     poisonous_to_pets: Optional[bool] = None
     description: Optional[str] = None
     image_url: Optional[str] = None
-    created_at: datetime
+    created_at: Optional[datetime] = None
     last_synced: Optional[datetime] = None
 
     class Config:
@@ -53,7 +58,10 @@ class PaginationLinks(BaseModel):
     last: str
     next: Optional[str] = None
     prev: Optional[str] = None
-    self: str
+    self_: str = Field(alias="self")
+
+    class Config:
+        populate_by_name = True
 
 
 class PaginationMeta(BaseModel):
