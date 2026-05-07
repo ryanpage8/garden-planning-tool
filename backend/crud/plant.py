@@ -7,7 +7,6 @@ _SUMMARY_COLS = (
     Plant.perenual_id,
     Plant.common_name,
     Plant.scientific_name,
-    Plant.cycle,
     Plant.watering,
     Plant.sunlight,
     Plant.care_level,
